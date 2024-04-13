@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "814357705732",
+    "firebase_url": "https://cookius-40eb6-default-rtdb.firebaseio.com",
+    "project_id": "cookius-40eb6",
+    "storage_bucket": "cookius-40eb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814357705732:android:c9439c804bdb922dce3151",
+        "android_client_info": {
+          "package_name": "com.example.cookius_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB3MY30wppvq0_Msotj3VwITILs9-CKwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
