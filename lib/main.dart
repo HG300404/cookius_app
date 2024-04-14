@@ -13,20 +13,20 @@ void main() async {
   );
 
   //List of Plants data
-  Users user = Users(
-    username: "Huong@3004",
-    passwordHash: 'abc123',
-    phone: '0888518142',
-    email: 'nglienhg000@gmail.com',
-    userType: "admin",
-    imageURL: "",
-    userID: '',
-    createdAt: '',
-  );
-
-  // Đối tượng của usersController
-  usersController controller = usersController();
-  controller.addUser(user);
+  // Users user = Users(
+  //   username: "Huong@3004",
+  //   passwordHash: 'abc123',
+  //   phone: '0888518142',
+  //   email: 'nglienhg000@gmail.com',
+  //   userType: "admin",
+  //   imageURL: "",
+  //   userID: '',
+  //   createdAt: '',
+  // );
+  //
+  // // Đối tượng của usersController
+  // usersController controller = usersController();
+  // controller.addUser(user);
 
   runApp(const MyApp());
 }

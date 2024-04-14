@@ -1,8 +1,9 @@
 
 import 'package:cookius_app/constants.dart';
+import 'package:cookius_app/ui/root_page.dart';
 import 'package:flutter/material.dart';
 
-import 'login_page.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -29,8 +30,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onTap: ()
               {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const Login()));
-              }, //to login screen. We will update later
+                    context, MaterialPageRoute(builder: (_) => const RootPage()));
+              },
               child: const Text(
                 'Skip',
                 style: TextStyle(
@@ -94,7 +95,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       } else {
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const Login()));
+                            MaterialPageRoute(builder: (_) => const RootPage()));
                       }
                     });
                   },
