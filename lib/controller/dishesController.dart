@@ -21,11 +21,11 @@ class dishesController {
     return dishesRef.snapshots();
   }
 
-  // Stream<List<Dishes>> getAll(){
-  //   return dishesRef.snapshots();
-  // }
-
   void addDish(Dishes dish) async {
-    dishesRef.add(dish);
+    await dishesRef.add(dish.toJson());
+  }
+
+  void updateDish(Dishes dish, String id) async{
+    await dishesRef.doc(id).update(dish.toJson());
   }
 }

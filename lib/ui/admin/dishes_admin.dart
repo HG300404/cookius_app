@@ -35,59 +35,57 @@ class _DishesAdminState extends State<DishesAdmin> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Thêm món ăn mới"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Tên món ăn'),
-            ),
-            TextFormField(
-              controller: _typeController,
-              decoration: const InputDecoration(labelText: 'Loại món ăn'),
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Mô tả'),
-              maxLines: null, // Không giới hạn số dòng
-              keyboardType: TextInputType
-                  .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
-            ),
-            TextFormField(
-              controller: _timeController,
-              decoration: const InputDecoration(labelText: 'Thời gian nấu'),
-            ),
-            TextFormField(
-              controller: _levelController,
-              decoration: const InputDecoration(labelText: 'Cấp độ'),
-            ),
-            TextFormField(
-              controller: _caloController,
-              decoration: const InputDecoration(labelText: 'Calo'),
-            ),
-            TextFormField(
-              controller: _ingradientController,
-              decoration: const InputDecoration(labelText: 'Nguyên liệu'),
-              maxLines: null, // Không giới hạn số dòng
-              keyboardType: TextInputType
-                  .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
-            ),
-            TextFormField(
-              controller: _recipeController,
-              decoration: const InputDecoration(labelText: 'Công thức'),
-              maxLines: null, // Không giới hạn số dòng
-              keyboardType: TextInputType
-                  .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
-            ),
-            // TextFormField(
-            //   controller: _imageURLController,
-            //   decoration: const InputDecoration(labelText: 'Tên món ăn'),
-            // ),
-            TextFormField(
-              controller: _g_p_lController,
-              decoration: const InputDecoration(labelText: 'Đường - Đạm - Béo'),
-            ),
-          ],
+        content: SingleChildScrollView( // Bao gồm Column trong một SingleChildScrollView
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(labelText: 'Tên món ăn'),
+              ),
+              TextFormField(
+                controller: _typeController,
+                decoration: const InputDecoration(labelText: 'Loại món ăn'),
+              ),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Mô tả'),
+                maxLines: null, // Không giới hạn số dòng
+                keyboardType: TextInputType
+                    .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
+              ),
+              TextFormField(
+                controller: _timeController,
+                decoration: const InputDecoration(labelText: 'Thời gian nấu'),
+              ),
+              TextFormField(
+                controller: _levelController,
+                decoration: const InputDecoration(labelText: 'Cấp độ'),
+              ),
+              TextFormField(
+                controller: _caloController,
+                decoration: const InputDecoration(labelText: 'Calo'),
+              ),
+              TextFormField(
+                controller: _ingradientController,
+                decoration: const InputDecoration(labelText: 'Nguyên liệu'),
+                maxLines: null, // Không giới hạn số dòng
+                keyboardType: TextInputType
+                    .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
+              ),
+              TextFormField(
+                controller: _recipeController,
+                decoration: const InputDecoration(labelText: 'Công thức'),
+                maxLines: null, // Không giới hạn số dòng
+                keyboardType: TextInputType
+                    .multiline, // Đánh dấu input này sẽ nhận nhiều dòng
+              ),
+              TextFormField(
+                controller: _g_p_lController,
+                decoration: const InputDecoration(labelText: 'Đường - Đạm - Béo'),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -100,28 +98,36 @@ class _DishesAdminState extends State<DishesAdmin> {
             child: const Text('Lưu'),
             onPressed: () async {
               // Lưu dữ liệu vào Firestore
-              var newDish = {
-                'name': _nameController.text,
-                'type': _typeController.text,
-                'description': _descriptionController.text,
-                'time': _timeController.text,
-                'level': _levelController.text,
-                'calo': _caloController.text,
-                'ingradient': _ingradientController.text,
-                'recipe': _recipeController.text,
-                'createdAt': Timestamp.now(),
-                'imageURL': _imageURLController.text,
-                'g_p_l': _g_p_lController.text,
-              };
+              Dishes newDish = Dishes(
+                dishID: "", // Firestore tự động tạo ID nếu để trống
+                name: _nameController.text,
+                type: _typeController.text,
+                description: _descriptionController.text,
+                time: _timeController.text,
+                level: _levelController.text,
+                calo: _caloController.text,
+                ingradient: _ingradientController.text,
+                recipe: _recipeController.text,
+                createdAt: Timestamp.now(),
+                imageURL: _imageURLController.text,
+                g_p_l:  _g_p_lController.text,
+              );
 
-              // controller.addDish(newDish);
-              //
-              // // Clear the TextFields
-              // _nameController.clear();
-              // _priceController.clear();
-              // _categoryController.clear();
+              controller.addDish(newDish); // Đảm bảo chờ hàm addDish hoàn thành
 
-              Navigator.of(context).pop(); // Đóng popup khi hoàn tất
+              // Xóa nội dung sau khi lưu
+              _nameController.clear();
+              _typeController.clear();
+              _descriptionController.clear();
+              _timeController.clear();
+              _levelController.clear();
+              _caloController.clear();
+              _ingradientController.clear();
+              _recipeController.clear();
+              _imageURLController.clear();
+              _g_p_lController.clear();
+
+              Navigator.of(context).pop(); // Đóng popup
             },
           ),
         ],
