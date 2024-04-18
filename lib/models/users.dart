@@ -6,21 +6,21 @@ import 'package:crypto/crypto.dart';
 class Users {
   final String userID;
   final String username;
-  final String passwordHash;
-  final String phone;
-  final String email;
-  final String createdAt;
+  final String ? passwordHash;
+  final String ? phone;
+  final String ? email;
+  final String ? createdAt;
   final String userType;
-  final String imageURL;
+  final String ? imageURL;
 
-  Users(
-      {required this.userID,
+  const Users(
+      { required this.userID,
         required this.username,
-        required this.passwordHash,
-        required this.phone,
-        required this.email,
-        required this.createdAt,
+        this.passwordHash,
+        this.phone,
+        this.email,
+        this.createdAt,
         required this.userType,
-        required this.imageURL
+        this.imageURL
       });
 }
