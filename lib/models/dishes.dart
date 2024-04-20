@@ -14,6 +14,7 @@ class Dishes {
   final String ingradient;
   final String recipe;
   final Timestamp createdAt;
+  final Timestamp updatedAt;
   final String imageURL;
   final String g_p_l;
 
@@ -29,85 +30,30 @@ class Dishes {
         required this.ingradient,
         required this.recipe,
         required this.createdAt,
+        required this.updatedAt,
         required this.imageURL,
         required this.g_p_l,
 
       });
 
-  // Dishes.fromJson(Map<String, Object?> json) :
-  //       this(dishID: json['dishID']! as String? ?? 'default-dishID',
-  //       name: json['name']! as String ? ?? 'default-dishID',
-  //       type: json['type']! as String? ?? 'default-dishID',
-  //       description: json['description']! as String? ?? 'default-dishID',
-  //       time: json['time']! as String? ?? 'default-dishID',
-  //       level: json['level']! as String? ?? 'default-dishID',
-  //       calo: json['calo']! as String? ?? 'default-dishID',
-  //       ingradient: json['ingradient']! as String? ?? 'default-dishID',
-  //       recipe: json['recipe']! as String? ?? 'default-dishID',
-  //       createdAt: json['createdAt']! as Timestamp,
-  //       imageURL: json['imageURL']! as String? ?? 'default-dishID',
-  //       g_p_l: json['g_p_l']! as String? ?? 'default-dishID'
-  //     );
   factory Dishes.fromJson(Map<String, dynamic> json, String id) {
     return Dishes(
       dishID: id,
-      name: json['name']! as String ? ?? 'default-dishID',
-            type: json['type']! as String? ?? 'default-dishID',
-            description: json['description']! as String? ?? 'default-dishID',
-            time: json['time']! as String? ?? 'default-dishID',
-            level: json['level']! as String? ?? 'default-dishID',
-            calo: json['calo']! as String? ?? 'default-dishID',
-            ingradient: json['ingradient']! as String? ?? 'default-dishID',
-            recipe: json['recipe']! as String? ?? 'default-dishID',
-            createdAt: json['createdAt']! as Timestamp,
-            imageURL: json['imageURL']! as String? ?? 'default-dishID',
-            g_p_l: json['g_p_l']! as String? ?? 'default-dishID'
+      name: (json['name'] as String?) ?? 'default-value',
+      type: (json['type'] as String?) ?? 'default-value',
+      description: (json['description'] as String?) ?? 'default-value',
+      time: (json['time'] as String?) ?? 'default-value',
+      level: (json['level'] as String?) ?? 'default-value',
+      calo: (json['calo'] as String?) ?? 'default-value',
+      ingradient: (json['ingradient'] as String?) ?? 'default-value',
+      recipe: (json['recipe'] as String?) ?? 'default-value',
+      createdAt: json['createdAt'] as Timestamp? ?? Timestamp.now(),
+      updatedAt: json['updatedAt'] as Timestamp? ?? Timestamp.now(),
+      imageURL: (json['imageURL'] as String?) ?? 'default-value',
+      g_p_l: (json['g_p_l'] as String?) ?? 'default-value',
     );
   }
-//   Dishes copyWith({
-//     String? dishID,
-//     String? name,
-//     String? type,
-//     String? description,
-//     String? time,
-//     String? level,
-//     String? calo,
-//     String? ingradient,
-//     String? recipe,
-//     Timestamp? createdAt,
-//     String? imageURL,
-//     String? g_p_l,
-// }) {
-//     return Dishes(dishID: dishID ?? this.dishID,
-//         name: name ?? this.name,
-//         type: type ?? this.type,
-//         description: description ?? this.description,
-//         time: time ?? this.time,
-//         level: level ?? this.level,
-//         calo: calo ?? this.calo,
-//         ingradient: ingradient ?? this.ingradient,
-//         recipe: recipe ?? this.recipe,
-//         createdAt: createdAt ?? this.createdAt,
-//         imageURL: imageURL ?? this.imageURL,
-//         g_p_l: g_p_l ?? this.g_p_l);
-//   }
 
-  // Map<String,Object?> toJson(){
-  //   return{
-  //     'dishID': dishID,
-  //     'name': name,
-  //     'type': type ,
-  //     'description': description ,
-  //     'time': time ,
-  //     'level': level ,
-  //     'calo': calo ,
-  //     'ingradient': ingradient,
-  //     'recipe': recipe ,
-  //     'createdAt': createdAt ,
-  //     'imageURL': imageURL ,
-  //     'g_p_l': g_p_l,
-  //   };
-  // }
   Map<String,dynamic> toJson(){
     return{
       'dishID': dishID,
@@ -120,6 +66,7 @@ class Dishes {
       'ingradient': ingradient,
       'recipe': recipe ,
       'createdAt': createdAt ,
+      'updatedAt': updatedAt ,
       'imageURL': imageURL ,
       'g_p_l': g_p_l,
     };

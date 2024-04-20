@@ -6,13 +6,6 @@ class dishesController {
   final _firestore = FirebaseFirestore.instance;
   late final CollectionReference dishesRef;
 
-  // dishesController(){
-  //   dishesRef = _firestore.collection('dishes').withConverter<Dishes>(
-  //       fromFirestore: (snapshots, _) => Dishes.fromJson(
-  //         snapshots.data()!,
-  //       ),
-  //       toFirestore: (dish, _) => dish.toJson());
-  // }
   dishesController(){
     dishesRef = _firestore.collection('dishes');
   }
@@ -21,11 +14,20 @@ class dishesController {
     return dishesRef.snapshots();
   }
 
+  Future<DocumentSnapshot> getID(String id){
+    return dishesRef.doc(id).get();
+  }
+
   void addDish(Dishes dish) async {
     await dishesRef.add(dish.toJson());
   }
 
-  void updateDish(Dishes dish, String id) async{
-    await dishesRef.doc(id).update(dish.toJson());
+  Future<bool> updateDish(Dishes dish, String id) async{
+    try {
+      await dishesRef.doc(id).update(dish.toJson());
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
