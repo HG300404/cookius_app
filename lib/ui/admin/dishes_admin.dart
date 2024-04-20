@@ -147,6 +147,33 @@ class _DishesAdminState extends State<DishesAdmin> {
     );
   }
 
+  void attemptDelete(String id) async {
+    bool deleteResult = await controller.deleteDishById(id);
+    if (deleteResult) {
+      showDialog(
+        context: context, // sử dụng context của StatefulWidget
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Xoá thành công", style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold)
+                ),
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context, // sử dụng context của StatefulWidget
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Xoá không thành công", style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold)),
+          );
+        },
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,99 +231,6 @@ class _DishesAdminState extends State<DishesAdmin> {
               final doc = dishesList[index];
               final dish =
                   Dishes.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-              // Hiển thị mỗi món ăn trong một Card
-              // return Card(
-              //   elevation: 4.0,
-              //   margin: EdgeInsets.all(10.0),
-              //   child: Column(
-              //     children: <Widget>[
-              //       ListTile(
-              //         leading: Icon(Icons.restaurant_menu),
-              //         title: Text(dish.name),
-              //         subtitle: Text('${dish.type} • ${dish.level}'),
-              //         trailing: Row(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             IconButton(
-              //               icon: Icon(Icons.edit),
-              //               onPressed: () {
-              //                 // Logic to edit the dish
-              //               },
-              //             ),
-              //             IconButton(
-              //               icon: Icon(Icons.delete),
-              //               onPressed: () {
-              //                 // Logic to remove the dish
-              //               },
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(16.0),
-              //         child: Text(
-              //           dish.description,
-              //           style: TextStyle(color: Colors.black.withOpacity(0.6)),
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: <Widget>[
-              //             Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: <Widget>[
-              //                 Text('Calo: ${dish.calo}'),
-              //                 Text('G:P:L: ${dish.g_p_l}'),
-              //               ],
-              //             ),
-              //             Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: <Widget>[
-              //                 Text('Thời gian: ${dish.time}'),
-              //                 Text(
-              //                     'Ngày tạo: ${DateFormat.yMd().format(dish.createdAt.toDate())}'),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       SizedBox(height: 10.0),
-              //       // Image.network(
-              //       //   dish.imageURL,
-              //       //   width: double.infinity,
-              //       //   height: 150.0,
-              //       //   fit: BoxFit.cover,
-              //       // ),
-              //       Padding(
-              //         padding: const EdgeInsets.all(16.0),
-              //         child: Row(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: <Widget>[
-              //             Expanded(
-              //               child: Text('Nguyên liệu: ${dish.ingradient}',
-              //                   softWrap: true),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Padding(
-              //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              //         child: Row(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: <Widget>[
-              //             Expanded(
-              //               child: Text('Công thức: ${dish.recipe}',
-              //                   softWrap: true),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       SizedBox(height: 10.0),
-              //     ],
-              //   ),
-              // );
               return Card(
                 elevation: 4.0,
                 margin: EdgeInsets.all(10.0),
@@ -333,7 +267,7 @@ class _DishesAdminState extends State<DishesAdmin> {
                             icon: Icon(Icons.delete,color: Color.alphaBlend(
                                 Constants.primaryColor, Colors.black12)),
                             onPressed: () {
-                              // Logic to remove the dish
+                              attemptDelete(dish.dishID);
                             },
                           ),
                         ],

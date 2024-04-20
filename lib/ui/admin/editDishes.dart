@@ -18,16 +18,17 @@ class EditDishes extends StatefulWidget {
 String _formatTimestamp(Timestamp timestamp) {
   DateTime dateTime = timestamp.toDate();
   // Bạn có thể thay đổi pattern để phù hợp với định dạng bạn muốn
-  DateFormat  formatter = DateFormat('MMMM d, yyyy at h:mm:ss a'); // Định dạng ví dụ
+  DateFormat formatter =
+      DateFormat('MMMM d, yyyy at h:mm:ss a'); // Định dạng ví dụ
   return formatter.format(dateTime);
 }
 
 Timestamp convertStringToTimestamp(String dateString) {
-  DateFormat format = DateFormat('MMMM d, yyyy at h:mm:ss a'); // Định dạng phải phù hợp với chuỗi ngày tháng của bạn
+  DateFormat format = DateFormat(
+      'MMMM d, yyyy at h:mm:ss a'); // Định dạng phải phù hợp với chuỗi ngày tháng của bạn
   DateTime dateTime = format.parse(dateString);
   return Timestamp.fromDate(dateTime);
 }
-
 
 class _EditDishesState extends State<EditDishes> {
   dishesController controller = dishesController();
@@ -44,10 +45,10 @@ class _EditDishesState extends State<EditDishes> {
         },
       );
       Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DishesAdmin(),
-              ),
-            );
+        MaterialPageRoute(
+          builder: (context) => DishesAdmin(),
+        ),
+      );
     } else {
       showDialog(
         context: context, // sử dụng context của StatefulWidget
@@ -57,7 +58,7 @@ class _EditDishesState extends State<EditDishes> {
           );
         },
       );
-       }
+    }
   }
 
   // Tạo controller cho TextFormField
@@ -119,18 +120,19 @@ class _EditDishesState extends State<EditDishes> {
               _imageURLController.text = dishData['imageURL'] ?? '';
               _g_p_lController.text = dishData['g_p_l'] ?? '';
 
-              if (dishData['createdAt'] != null){
-                _createdAtController.text = _formatTimestamp(dishData['createdAt']);
+              if (dishData['createdAt'] != null) {
+                _createdAtController.text =
+                    _formatTimestamp(dishData['createdAt']);
               } else {
                 _createdAtController.text = '';
               }
 
-              if (dishData['updatedAt'] != null){
-                _updatedAtController.text = _formatTimestamp(dishData['updatedAt']);
+              if (dishData['updatedAt'] != null) {
+                _updatedAtController.text =
+                    _formatTimestamp(dishData['updatedAt']);
               } else {
                 _updatedAtController.text = '';
               }
-
             } else {
               return const Center(
                 child: Text("Không có dữ liệu",
@@ -143,117 +145,121 @@ class _EditDishesState extends State<EditDishes> {
 
             return Column(
               children: [
-              Stepper(
-              currentStep: _index,
-              onStepCancel: () {
-                if (_index > 0) {
-                  setState(() {
-                    _index -= 1;
-                  });
-                }
-              },
-              onStepContinue: () {
-                if (_index <= 0) {
-                  setState(() {
-                    _index += 1;
-                  });
-                }
-              },
-              onStepTapped: (int index) {
-                setState(() {
-                  _index = index;
-                });
-              },
-              steps: <Step>[
-                Step(
-                    title: const Text("1"),
-                    content: Column(children: [
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: "Tên món ăn",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _typeController,
-                        decoration: const InputDecoration(
-                          labelText: "Loại món ăn",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _timeController,
-                        decoration: const InputDecoration(
-                          labelText: "Thời gian",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _levelController,
-                        decoration: const InputDecoration(
-                          labelText: "Độ khó",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _caloController,
-                        decoration: const InputDecoration(
-                          labelText: "Calo",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _g_p_lController,
-                        decoration: const InputDecoration(
-                          labelText: "Đường - Đạm - Béo",
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ])),
-                Step(
-                    title: const Text("2"),
-                    content: Column(children: [
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _ingradientController,
-                        decoration: const InputDecoration(
-                          labelText: "Nguyên liệu",
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 10,
-                      ),
-                      SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _recipeController,
-                        decoration: const InputDecoration(
-                          labelText: "Công thức",
-                          border: OutlineInputBorder(),
-                        ),
-                        maxLines: 10,
-                      ),
-                      SizedBox(height: 8.0),
-                    ])),
-              ],
-            ),
+                Stepper(
+                  currentStep: _index,
+                  onStepCancel: () {
+                    if (_index > 0) {
+                      setState(() {
+                        _index -= 1;
+                      });
+                    }
+                  },
+                  onStepContinue: () {
+                    if (_index <= 0) {
+                      setState(() {
+                        _index += 1;
+                      });
+                    }
+                  },
+                  onStepTapped: (int index) {
+                    setState(() {
+                      _index = index;
+                    });
+                  },
+                  steps: <Step>[
+                    Step(
+                        title: const Text("1"),
+                        content: Column(children: [
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              labelText: "Tên món ăn",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _typeController,
+                            decoration: const InputDecoration(
+                              labelText: "Loại món ăn",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _timeController,
+                            decoration: const InputDecoration(
+                              labelText: "Thời gian",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _levelController,
+                            decoration: const InputDecoration(
+                              labelText: "Độ khó",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _caloController,
+                            decoration: const InputDecoration(
+                              labelText: "Calo",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _g_p_lController,
+                            decoration: const InputDecoration(
+                              labelText: "Đường - Đạm - Béo",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ])),
+                    Step(
+                        title: const Text("2"),
+                        content: Column(children: [
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _ingradientController,
+                            decoration: const InputDecoration(
+                              labelText: "Nguyên liệu",
+                              border: OutlineInputBorder(),
+                            ),
+                            maxLines: 10,
+                          ),
+                          SizedBox(height: 8.0),
+                          TextFormField(
+                            controller: _recipeController,
+                            decoration: const InputDecoration(
+                              labelText: "Công thức",
+                              border: OutlineInputBorder(),
+                            ),
+                            maxLines: 10,
+                          ),
+                          SizedBox(height: 8.0),
+                        ])),
+                  ],
+                ),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Lưu",style:TextStyle(
-                          color: Constants.primaryColor,fontSize: 20,
-                      fontWeight: FontWeight.bold)),
+                      Text("Lưu",
+                          style: TextStyle(
+                              color: Constants.primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
                       IconButton(
-                        icon: Icon(Icons.save,color: Color.alphaBlend(
-                            Constants.primaryColor, Colors.black12)),
-                        onPressed: (){
-                          Dishes dish = Dishes(dishID: widget.dishID,
+                        icon: Icon(Icons.save,
+                            color: Color.alphaBlend(
+                                Constants.primaryColor, Colors.black12)),
+                        onPressed: () {
+                          Dishes dish = Dishes(
+                              dishID: widget.dishID,
                               name: _nameController.text,
                               type: _typeController.text,
                               description: _descriptionController.text,
@@ -262,7 +268,8 @@ class _EditDishesState extends State<EditDishes> {
                               calo: _caloController.text,
                               ingradient: _ingradientController.text,
                               recipe: _recipeController.text,
-                              createdAt: convertStringToTimestamp(_createdAtController.text),
+                              createdAt: convertStringToTimestamp(
+                                  _createdAtController.text),
                               updatedAt: Timestamp.now(),
                               imageURL: _imageURLController.text,
                               g_p_l: _g_p_lController.text);

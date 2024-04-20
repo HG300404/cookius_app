@@ -30,4 +30,14 @@ class dishesController {
       return false;
     }
   }
+
+  Future<bool> deleteDishById(String dishId) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    try {
+      await firestore.collection('dishes').doc(dishId).delete();
+      return true;
+    } catch (e) {
+      return true;
+    }
+  }
 }
