@@ -4,6 +4,7 @@ class Constants {
   //Primary color
   static var primaryColor = const Color(0xff296e48);
   static var blackColor = Colors.black54;
+  static var secondColor = const Color(0xff979a98);
 
   //Onboarding texts
   static var titleOne = "Khám phá vô vàn món ăn với COOKIUS";

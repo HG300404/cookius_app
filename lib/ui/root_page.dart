@@ -1,6 +1,5 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cookius_app/constants.dart';
-import 'package:cookius_app/ui/login_page.dart';
 import 'package:cookius_app/ui/screens/favourite_page.dart';
 import 'package:cookius_app/ui/screens/home_page.dart';
 import 'package:cookius_app/ui/screens/profile_page.dart';

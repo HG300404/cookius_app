@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cookius_app/constants.dart';
 import 'package:cookius_app/controller/usersController.dart';
 import 'package:cookius_app/models/dishes.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cookius_app/ui/admin/editDishes.dart';
 import 'package:cookius_app/controller/dishesController.dart';
@@ -18,6 +21,8 @@ class DishesAdmin extends StatefulWidget {
 class _DishesAdminState extends State<DishesAdmin> {
   dishesController controller = dishesController();
 
+  File? _image;
+
   // Tạo controller cho TextFormField
   final _nameController = TextEditingController();
   final _typeController = TextEditingController();
@@ -27,7 +32,7 @@ class _DishesAdminState extends State<DishesAdmin> {
   final _caloController = TextEditingController();
   final _ingradientController = TextEditingController();
   final _recipeController = TextEditingController();
-  final _imageURLController = TextEditingController();
+  String _imageURLController = '';
   final _g_p_lController = TextEditingController();
 
   // Hàm để hiển thị AlertDialog
@@ -89,10 +94,34 @@ class _DishesAdminState extends State<DishesAdmin> {
               ),
               IconButton(
                   onPressed: () async {
+                    // Pick image
                     ImagePicker imagePicker = ImagePicker();
                     XFile? file =
-                        await imagePicker.pickImage(source: ImageSource.camera);
+                        await imagePicker.pickImage(source: ImageSource.gallery);
                     print('${file?.path}');
+
+                    if (file == null) return;
+                    setState((){
+                      _image = File(file.path);
+                    });
+
+                    String fileName = '${_nameController.text}.png';
+                    // Upload to Firebase storage
+                    FirebaseStorage storage = FirebaseStorage.instance;
+
+                    //Handle err/success
+                    try {
+                      //Upload file
+                      await storage.ref(fileName).putFile(_image!);
+                      //Get file URL
+                      _imageURLController =
+                          await storage.ref(fileName).getDownloadURL();
+                      print("Download URL: ${_imageURLController}");
+                    } on FirebaseException catch (e) {
+                      print('Error occurred while uploading to Firebase: ${e.code} - ${e.message}');
+                    } catch (e) {
+                      print('An unexpected error occurred: $e');
+                    }
                   },
                   icon: Icon(Icons.camera_alt))
             ],
@@ -121,7 +150,7 @@ class _DishesAdminState extends State<DishesAdmin> {
                 recipe: _recipeController.text,
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now(),
-                imageURL: _imageURLController.text,
+                imageURL: _imageURLController,
                 g_p_l: _g_p_lController.text,
               );
 
@@ -136,7 +165,6 @@ class _DishesAdminState extends State<DishesAdmin> {
               _caloController.clear();
               _ingradientController.clear();
               _recipeController.clear();
-              _imageURLController.clear();
               _g_p_lController.clear();
 
               Navigator.of(context).pop(); // Đóng popup
@@ -154,10 +182,9 @@ class _DishesAdminState extends State<DishesAdmin> {
         context: context, // sử dụng context của StatefulWidget
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Xoá thành công", style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold)
-                ),
+            title: const Text("Xoá thành công",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
           );
         },
       );
@@ -166,14 +193,15 @@ class _DishesAdminState extends State<DishesAdmin> {
         context: context, // sử dụng context của StatefulWidget
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Xoá không thành công", style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold)),
+            title: const Text("Xoá không thành công",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
           );
         },
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,7 +221,8 @@ class _DishesAdminState extends State<DishesAdmin> {
         backgroundColor: Constants.primaryColor,
         onPressed: _showAddDishDialog,
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body:
+      StreamBuilder<QuerySnapshot>(
         stream: controller.getAll(),
         // Sử dụng phương thức getAll() từ controller
         builder: (context, snapshot) {
@@ -240,32 +269,36 @@ class _DishesAdminState extends State<DishesAdmin> {
                       leading: Icon(Icons.restaurant_menu,
                           color: Color.alphaBlend(
                               Constants.primaryColor, Colors.black12)),
-                      title:  Text(dish.name,
+                      title: Text(dish.name,
                           style: TextStyle(
                               color: Color(0xff296e48),
                               fontSize: 20,
                               fontWeight: FontWeight.bold)),
-                      subtitle: Text('${dish.type} • ${dish.level}', style: TextStyle(
-                          color: Color(0xff296e48),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                      subtitle: Text('${dish.type} • ${dish.level}',
+                          style: TextStyle(
+                              color: Color(0xff296e48),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit,color: Color.alphaBlend(
-                                Constants.primaryColor, Colors.black12)),
+                            icon: Icon(Icons.edit,
+                                color: Color.alphaBlend(
+                                    Constants.primaryColor, Colors.black12)),
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => EditDishes(dishID: dish.dishID),
+                                  builder: (context) =>
+                                      EditDishes(dishID: dish.dishID),
                                 ),
                               );
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete,color: Color.alphaBlend(
-                                Constants.primaryColor, Colors.black12)),
+                            icon: Icon(Icons.delete,
+                                color: Color.alphaBlend(
+                                    Constants.primaryColor, Colors.black12)),
                             onPressed: () {
                               attemptDelete(dish.dishID);
                             },
@@ -281,34 +314,37 @@ class _DishesAdminState extends State<DishesAdmin> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Calo: ${dish.calo}',style: TextStyle(
-                                  color: Color(0xff296e48),
-                                  fontSize: 15,
-                              )),
-                              Text('G:P:L: ${dish.g_p_l}',style: TextStyle(
-                                color: Color(0xff296e48),
-                                fontSize: 15,
-                              )),
+                              Text('Calo: ${dish.calo}',
+                                  style: TextStyle(
+                                    color: Color(0xff296e48),
+                                    fontSize: 15,
+                                  )),
+                              Text('G:P:L: ${dish.g_p_l}',
+                                  style: TextStyle(
+                                    color: Color(0xff296e48),
+                                    fontSize: 15,
+                                  )),
                             ],
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Thời gian: ${dish.time}',style: TextStyle(
-                                color: Color(0xff296e48),
-                                fontSize: 15,
-                              )),
+                              Text('Thời gian: ${dish.time}',
+                                  style: TextStyle(
+                                    color: Color(0xff296e48),
+                                    fontSize: 15,
+                                  )),
                               Text(
-                                  'Ngày tạo: ${DateFormat.yMd().format(dish.createdAt.toDate())}',style: TextStyle(
-                                color: Color(0xff296e48),
-                                fontSize: 15,
-                              )),
+                                  'Ngày tạo: ${DateFormat.yMd().format(dish.createdAt.toDate())}',
+                                  style: TextStyle(
+                                    color: Color(0xff296e48),
+                                    fontSize: 15,
+                                  )),
                             ],
                           ),
                         ],
                       ),
                     ),
-
                     SizedBox(height: 10.0),
                   ],
                 ),
