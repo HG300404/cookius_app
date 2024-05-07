@@ -104,12 +104,11 @@ class _EditUsersState extends State<EditUsers> {
             if (snapshot.hasData && snapshot.data!.data() != null) {
               Map<String, dynamic> userData =
               snapshot.data!.data() as Map<String, dynamic>;
-              _userNameController.text =
-                  userData['name'] ?? ''; // gán giá trị cho thuộc tính `text`
-              _passwordController.text = userData['type'] ?? '';
-              _phoneController.text = userData['description'] ?? '';
-              _emailController.text = userData['time'] ?? '';
-              _userTypeController.text = userData['level'] ?? '';
+              _userNameController.text = userData['userName'] ?? ''; // gán giá trị cho thuộc tính `text`
+              _passwordController.text = userData['passwordHash'] ?? '';
+              _phoneController.text = userData['phone'] ?? '';
+              _emailController.text = userData['email'] ?? '';
+              _userTypeController.text = userData['userType'] ?? '';
               _imageURLController.text = userData['imageURL'] ?? '';
 
               if (userData['createdAt'] != null) {

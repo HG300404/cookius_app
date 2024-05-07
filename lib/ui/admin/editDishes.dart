@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cookius_app/constants.dart';
 import 'package:cookius_app/controller/dishesController.dart';
 import 'package:cookius_app/models/dishes.dart';
 import 'package:cookius_app/ui/admin/dishes_admin.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditDishes extends StatefulWidget {
@@ -34,6 +40,12 @@ class _EditDishesState extends State<EditDishes> {
   dishesController controller = dishesController();
 
   void attemptUpdate(Dishes dish) async {
+
+    if (_imageURLController.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Chưa chọn được ảnh')));
+    }
+
     bool updateResult = await controller.updateDish(dish, widget.dishID);
     if (updateResult) {
       showDialog(
@@ -61,6 +73,7 @@ class _EditDishesState extends State<EditDishes> {
     }
   }
 
+
   // Tạo controller cho TextFormField
   var _nameController = TextEditingController();
   var _typeController = TextEditingController();
@@ -70,7 +83,7 @@ class _EditDishesState extends State<EditDishes> {
   var _caloController = TextEditingController();
   var _ingradientController = TextEditingController();
   var _recipeController = TextEditingController();
-  var _imageURLController = TextEditingController();
+  var _imageURLController = '';
   var _g_p_lController = TextEditingController();
   var _updatedAtController = TextEditingController();
   var _createdAtController = TextEditingController();
@@ -91,7 +104,8 @@ class _EditDishesState extends State<EditDishes> {
           ),
           backgroundColor: Constants.primaryColor,
         ),
-        body: FutureBuilder<DocumentSnapshot>(
+        body:
+        FutureBuilder<DocumentSnapshot>(
           future: controller.getID(widget.dishID),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -119,7 +133,7 @@ class _EditDishesState extends State<EditDishes> {
               _caloController.text = dishData['calo'] ?? '';
               _ingradientController.text = dishData['ingradient'] ?? '';
               _recipeController.text = dishData['recipe'] ?? '';
-              _imageURLController.text = dishData['imageURL'] ?? '';
+              _imageURLController = dishData['imageURL'] ?? '';
               _g_p_lController.text = dishData['g_p_l'] ?? '';
               _isFavorited = dishData['isFavorited'] ?? false;
               _isSelected = dishData['isSelected'] ?? false;
@@ -146,122 +160,121 @@ class _EditDishesState extends State<EditDishes> {
                         fontWeight: FontWeight.bold)),
               );
             }
+            return
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Món ăn',
+                          border: OutlineInputBorder(), // Consistent border style
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _typeController,
+                        decoration: InputDecoration(
+                          labelText: 'Loại món ăn',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _timeController,
+                        decoration: InputDecoration(
+                          labelText: 'Thời gian thực hiện',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _levelController,
+                        decoration: InputDecoration(
+                          labelText: 'Độ khó',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _caloController,
+                        decoration: InputDecoration(
+                          labelText: 'Hàm lượng calo',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _g_p_lController,
+                        decoration: InputDecoration(
+                          labelText: 'Đường_Đạm_Béo',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _descriptionController,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          labelText: 'Mô tả',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _ingradientController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          labelText: 'Nguyên liệu',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _recipeController,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          labelText: 'Công thức',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
 
-            return Column(
-              children: [
-                Stepper(
-                  currentStep: _index,
-                  onStepCancel: () {
-                    if (_index > 0) {
-                      setState(() {
-                        _index -= 1;
-                      });
-                    }
-                  },
-                  onStepContinue: () {
-                    if (_index <= 0) {
-                      setState(() {
-                        _index += 1;
-                      });
-                    }
-                  },
-                  onStepTapped: (int index) {
-                    setState(() {
-                      _index = index;
-                    });
-                  },
-                  steps: <Step>[
-                    Step(
-                        title: const Text("1"),
-                        content: Column(children: [
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _nameController,
-                            decoration: const InputDecoration(
-                              labelText: "Tên món ăn",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _typeController,
-                            decoration: const InputDecoration(
-                              labelText: "Loại món ăn",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _timeController,
-                            decoration: const InputDecoration(
-                              labelText: "Thời gian",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _levelController,
-                            decoration: const InputDecoration(
-                              labelText: "Độ khó",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _caloController,
-                            decoration: const InputDecoration(
-                              labelText: "Calo",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _g_p_lController,
-                            decoration: const InputDecoration(
-                              labelText: "Đường - Đạm - Béo",
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ])),
-                    Step(
-                        title: const Text("2"),
-                        content: Column(children: [
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _ingradientController,
-                            decoration: const InputDecoration(
-                              labelText: "Nguyên liệu",
-                              border: OutlineInputBorder(),
-                            ),
-                            maxLines: 10,
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _recipeController,
-                            decoration: const InputDecoration(
-                              labelText: "Công thức",
-                              border: OutlineInputBorder(),
-                            ),
-                            maxLines: 10,
-                          ),
-                          SizedBox(height: 8.0),
-                        ])),
-                  ],
-                ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Lưu",
-                          style: TextStyle(
-                              color: Constants.primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
-                      IconButton(
-                        icon: Icon(Icons.save,
-                            color: Color.alphaBlend(
-                                Constants.primaryColor, Colors.black12)),
+                    Card(
+                      elevation: 4.0, // Subtle elevation
+                      child: Container(
+                        width: 80.0,
+                        height: 80.0,
+                        child: _imageURLController.isEmpty
+                            ? Icon(Icons.image, size: 80.0) // Placeholder icon when no image is set
+                            : Image.network(_imageURLController),
+                      ),
+                    ),
+
+                    // Center aligns its children horizontally; the Row is no longer necessary.
+                    Center(
+                      child: IconButton(
+                        icon: Icon(Icons.save, color: Theme.of(context).primaryColor),
                         onPressed: () {
+
                           Dishes dish = Dishes(
                               dishID: widget.dishID,
                               name: _nameController.text,
@@ -275,21 +288,35 @@ class _EditDishesState extends State<EditDishes> {
                               createdAt: convertStringToTimestamp(
                                   _createdAtController.text),
                               updatedAt: Timestamp.now(),
-                              imageURL: _imageURLController.text,
+                              imageURL: _imageURLController,
                               g_p_l: _g_p_lController.text,
                               isFavorited: _isFavorited, // Pass the current state
                             isSelected: _isSelected,
                           );
 
                           attemptUpdate(dish);
+
                         },
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        "Lưu",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor, // Color from theme
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
             );
           },
-        ));
+        )
+    );
   }
 }

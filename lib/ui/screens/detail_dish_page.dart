@@ -3,6 +3,7 @@ import 'package:cookius_app/constants.dart';
 import 'package:cookius_app/controller/dishesController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class DetailDish extends StatefulWidget {
@@ -44,6 +45,7 @@ class _DetailDishState extends State<DetailDish> {
     var media = MediaQuery.of(context).size;
     return Scaffold(
         body: FutureBuilder<DocumentSnapshot>(
+
           future: controller.getID(id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -368,3 +370,4 @@ class _DetailDishState extends State<DetailDish> {
         ));
   }
 }
+

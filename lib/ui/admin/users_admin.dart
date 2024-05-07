@@ -32,7 +32,8 @@ class _UsersAdminState extends State<UsersAdmin> {
         title: const Text("Thêm người dùng mới"),
         content: SingleChildScrollView(
           // Bao gồm Column trong một SingleChildScrollView
-          child: Column(
+          child:
+          Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
@@ -192,54 +193,57 @@ class _UsersAdminState extends State<UsersAdmin> {
               final doc = usersList[index];
               final user =
               Users.fromJson(doc.data() as Map<String, dynamic>, doc.id);
-              return Card(
-                elevation: 4.0,
-                margin: EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.person,
-                          color: Color.alphaBlend(
-                              Constants.primaryColor, Colors.black12)),
-                      title:  Text(user.userName,
-                          style: TextStyle(
-                              color: Color(0xff296e48),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
-                      subtitle: Text('${user.phone} • ${user.email} • ${user.userType}', style: TextStyle(
-                          color: Color(0xff296e48),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit,color: Color.alphaBlend(
-                                Constants.primaryColor, Colors.black12)),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => EditUsers(userID: user.userID),
-                                ),
-                              );
-                            },
+              return
+                Card(
+                  elevation: 4.0,
+                  margin: const EdgeInsets.all(12.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0), // Bạn có thể điều chỉnh radius này
+                  ),
+                  child: ClipRRect(
+                    // Điều này giúp cho mọi thứ trong Card đều có góc tròn như Card
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(Icons.person, color: Constants.primaryColor.withOpacity(0.7)),
+                          title: Text(user.userName,
+                              style: TextStyle(
+                                  color: Color(0xff296e48),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text('${user.phone} • ${user.email} • ${user.userType}',
+                              style: TextStyle(
+                                color: Color(0xff296e48).withOpacity(0.7), // Slightly lighter
+                                fontSize: 15,
+                              )),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Constants.primaryColor.withOpacity(0.7)),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => EditUsers(userID: user.userID),
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red.withOpacity(0.7)),
+                                onPressed: () {
+                                  attemptDelete(user.userID);
+                                },
+                              ),
+                            ],
                           ),
-
-                          IconButton(
-                            icon: Icon(Icons.delete,color: Color.alphaBlend(
-                                Constants.primaryColor, Colors.black12)),
-                            onPressed: () {
-                              attemptDelete(user.userID);
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 10.0),
+                      ],
                     ),
-
-                    SizedBox(height: 10.0),
-                  ],
-                ),
-              );
+                  ),
+                );
             },
           );
         },

@@ -36,19 +36,22 @@ class _AdminPageState extends State<AdminPage> {
         child: _widgetOptions[_selectedIndex],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            const DrawerHeader(
-              child: Align(
-                alignment: Alignment.center, // Căn chính giữa
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                "Cookius",
+                style: TextStyle(fontSize: 20.0),
+              ),
+              accountEmail: Text(
+                "cookius@gmail.com",
+                style: TextStyle(fontSize: 14.0),
+              ),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
                 child: Text(
-                  "MENU COOKIUS",
-                  style: TextStyle(
-                    color: Colors.white, // Màu sắc của chữ
-                    fontWeight: FontWeight.bold, // Làm cho chữ đậm
-                    fontSize: 30, // Kích cỡ font của chữ
-                  ),
+                  "C",
+                  style: TextStyle(fontSize: 40.0, color: Color(0xff296e48)),
                 ),
               ),
               decoration: BoxDecoration(
@@ -56,7 +59,8 @@ class _AdminPageState extends State<AdminPage> {
               ),
             ),
             ListTile(
-              title: const Text('Users'),
+              leading: Icon(Icons.fastfood, color: _selectedIndex == 0 ? Colors.blue : null),
+              title: const Text('Món ăn'),
               selected: _selectedIndex == 0,
               onTap: () {
                 _onItemTapped(0);
@@ -64,7 +68,8 @@ class _AdminPageState extends State<AdminPage> {
               },
             ),
             ListTile(
-              title: const Text('Dishes'),
+              leading: Icon(Icons.person, color: _selectedIndex == 1 ? Colors.blue : null),
+              title: const Text('Người dùng'),
               selected: _selectedIndex == 1,
               onTap: () {
                 _onItemTapped(1);
@@ -72,16 +77,19 @@ class _AdminPageState extends State<AdminPage> {
               },
             ),
             ListTile(
-              title: const Text('Favorite'),
+              leading: Icon(Icons.favorite, color: _selectedIndex == 2 ? Colors.red : null),
+              title: const Text('Yêu thích'),
               selected: _selectedIndex == 2,
               onTap: () {
                 _onItemTapped(2);
                 Navigator.pop(context);
               },
-            )
+            ),
+            Divider(),
+            // You can add other sections or footer here
           ],
         ),
-      ),
+      )
     );
   }
 }

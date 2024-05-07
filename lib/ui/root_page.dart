@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cookius_app/constants.dart';
+
 import 'package:cookius_app/ui/screens/favorite_page.dart';
 import 'package:cookius_app/ui/screens/home_page.dart';
 import 'package:cookius_app/ui/screens/profile_page.dart';
@@ -20,7 +21,7 @@ class _RootPageState extends State<RootPage> {
   List<Widget> pages = const [
    HomePage(),
     FavoritePage(),
-  //  ProfilePage(),
+    ProfilePage(),
   ];
 
   // List of the page icons
