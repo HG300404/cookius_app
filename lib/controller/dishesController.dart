@@ -40,4 +40,16 @@ class dishesController {
       return true;
     }
   }
+  Stream<QuerySnapshot> getDishesByType(String type) {
+    return dishesRef.where('type', isEqualTo: type).snapshots();
+  }
+
+  Future<void> toggleFavoriteStatus(String dishId, bool isCurrentlyFavorited) async {
+    // Truy cập đến document của món ăn bằng dishId
+    DocumentReference dishRef = _firestore.collection('dishes').doc(dishId);
+    return await dishRef.update({
+      'isFavorited': !isCurrentlyFavorited,
+    });
+  }
+
 }

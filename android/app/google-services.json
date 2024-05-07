@@ -13,7 +13,20 @@
           "package_name": "com.example.cookius_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "814357705732-jjtvmnn8m1j5fiopf5ekgv5n3jim4j4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cookius_app",
+            "certificate_hash": "41cb0f001d0f5d7dc874da9184d6f6f943e3ca8a"
+          }
+        },
+        {
+          "client_id": "814357705732-2fe0kiok1rojg55ikkfduiubn3cci26v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBB3MY30wppvq0_Msotj3VwITILs9-CKwg"
@@ -21,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814357705732-2fe0kiok1rojg55ikkfduiubn3cci26v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "814357705732-ldm13ikvq0b516fke38rtka0ccg55rp3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cookiusApp"
+              }
+            }
+          ]
         }
       }
     }

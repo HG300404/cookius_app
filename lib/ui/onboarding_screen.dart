@@ -1,6 +1,6 @@
-
 import 'package:cookius_app/constants.dart';
-import 'package:cookius_app/ui/root_page.dart';
+import 'package:cookius_app/ui/screens/home_page.dart';
+import 'package:cookius_app/ui/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -30,8 +30,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onTap: ()
               {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const RootPage()));
-              },
+                    context, MaterialPageRoute(builder: (_) => const SignUp()));
+              }, //to login screen. We will update later
               child: const Text(
                 'Skip',
                 style: TextStyle(
@@ -56,19 +56,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             children: [
               createPage(
-                //     image: 'assets/images/food_one.png',
+                image: 'assets/images/food_one.png',
                 title: Constants.titleOne,
-                description: Constants.descriptionOne, image: '',
+                description: Constants.descriptionOne,
               ),
               createPage(
-                //     image: 'assets/images/food_two.png',
+                image: 'assets/images/food_two.png',
                 title: Constants.titleTwo,
-                description: Constants.descriptionTwo, image: '',
+                description: Constants.descriptionTwo,
               ),
               createPage(
-                //      image: 'assets/images/food_three.png',
+                image: 'assets/images/food_three.png',
                 title: Constants.titleThree,
-                description: Constants.descriptionThree, image: '',
+                description: Constants.descriptionThree,
               ),
             ],
           ),
@@ -95,7 +95,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       } else {
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const RootPage()));
+                            MaterialPageRoute(builder: (_) => const SignUp()));
                       }
                     });
                   },
@@ -188,3 +188,6 @@ class createPage extends StatelessWidget {
     );
   }
 }
+
+
+

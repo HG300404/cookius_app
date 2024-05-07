@@ -4,7 +4,9 @@ import 'package:cookius_app/firebase_options.dart';
 import 'package:cookius_app/models/users.dart';
 import 'package:cookius_app/ui/admin/admin_page.dart';
 import 'package:cookius_app/ui/admin/dishes_admin.dart';
-import 'package:cookius_app/ui/register_page.dart';
+import 'package:cookius_app/ui/screens/favorite_page.dart';
+import 'package:cookius_app/ui/screens/updatePassword_screen.dart';
+import 'package:cookius_app/ui/screens/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

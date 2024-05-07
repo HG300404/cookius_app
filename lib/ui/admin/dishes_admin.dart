@@ -30,6 +30,7 @@ class _DishesAdminState extends State<DishesAdmin> {
   final _imageURLController = TextEditingController();
   final _g_p_lController = TextEditingController();
 
+
   // Hàm để hiển thị AlertDialog
   void _showAddDishDialog() {
     showDialog(
@@ -87,6 +88,7 @@ class _DishesAdminState extends State<DishesAdmin> {
                 keyboardType: TextInputType
                     .multiline, // Đánh dấu async  input này sẽ nhận nhiều dòng
               ),
+
               IconButton(
                   onPressed: () async {
                     ImagePicker imagePicker = ImagePicker();
@@ -174,6 +176,8 @@ class _DishesAdminState extends State<DishesAdmin> {
       );
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,8 +233,7 @@ class _DishesAdminState extends State<DishesAdmin> {
             itemCount: dishesList?.length ?? 0,
             itemBuilder: (context, index) {
               final doc = dishesList[index];
-              final dish =
-                  Dishes.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+              final dish = Dishes.fromJson(doc.data() as Map<String, dynamic>, doc.id);
               return Card(
                 elevation: 4.0,
                 margin: EdgeInsets.all(10.0),

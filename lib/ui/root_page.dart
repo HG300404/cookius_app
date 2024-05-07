@@ -1,7 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cookius_app/constants.dart';
-import 'package:cookius_app/ui/login_page.dart';
-import 'package:cookius_app/ui/screens/favourite_page.dart';
+import 'package:cookius_app/ui/screens/favorite_page.dart';
 import 'package:cookius_app/ui/screens/home_page.dart';
 import 'package:cookius_app/ui/screens/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,9 @@ class _RootPageState extends State<RootPage> {
 
   // List of the page
   List<Widget> pages = const [
-    HomePage(),
-    FavouritePage(),
-    ProfilePage(),
+   HomePage(),
+    FavoritePage(),
+  //  ProfilePage(),
   ];
 
   // List of the page icons
@@ -59,19 +58,7 @@ class _RootPageState extends State<RootPage> {
         index: _bottomNavIndex,
         children: pages,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //         context,
-      //         PageTransition(
-      //             child: const Login(), type: PageTransitionType.bottomToTop));
-      //   },
-      //   child: Image.asset(
-      //     'assets/images/code-scan.png',
-      //     height: 30.0,
-      //   ),
-      //   backgroundColor: Constants.primaryColor,
-      // ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
           splashColor: Constants.primaryColor,

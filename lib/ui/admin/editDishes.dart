@@ -74,6 +74,8 @@ class _EditDishesState extends State<EditDishes> {
   var _g_p_lController = TextEditingController();
   var _updatedAtController = TextEditingController();
   var _createdAtController = TextEditingController();
+  bool _isFavorited = false;
+  bool _isSelected = false;
 
   var _index = 0;
   @override
@@ -119,6 +121,8 @@ class _EditDishesState extends State<EditDishes> {
               _recipeController.text = dishData['recipe'] ?? '';
               _imageURLController.text = dishData['imageURL'] ?? '';
               _g_p_lController.text = dishData['g_p_l'] ?? '';
+              _isFavorited = dishData['isFavorited'] ?? false;
+              _isSelected = dishData['isSelected'] ?? false;
 
               if (dishData['createdAt'] != null) {
                 _createdAtController.text =
@@ -272,7 +276,11 @@ class _EditDishesState extends State<EditDishes> {
                                   _createdAtController.text),
                               updatedAt: Timestamp.now(),
                               imageURL: _imageURLController.text,
-                              g_p_l: _g_p_lController.text);
+                              g_p_l: _g_p_lController.text,
+                              isFavorited: _isFavorited, // Pass the current state
+                            isSelected: _isSelected,
+                          );
+
                           attemptUpdate(dish);
                         },
                       ),
